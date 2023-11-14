@@ -16,7 +16,7 @@ class WordRecommenderTest {
     void setUp(@TempDir Path tempDir) throws IOException {
         testDictionaryFileName = tempDir.resolve("testDictionary.txt").toString();
 
-        // Create a test dictionary file
+        // Create a test file
         ArrayList<String> lines = new ArrayList<>();
         lines.add("word");
         lines.add("world");
