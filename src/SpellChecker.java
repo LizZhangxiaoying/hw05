@@ -6,7 +6,7 @@ public class SpellChecker {
 
     public SpellChecker() {
       // TODO: You can modify the body of this constructor,
-      // or you can leave it blank. You must keep the signature, however.
+      //leave this blank
     }
   
     public static void start() {
