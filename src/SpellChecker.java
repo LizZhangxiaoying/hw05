@@ -52,11 +52,13 @@ public class SpellChecker {
 
             try {
                 String fileName = inputScanner.nextLine();
+                File checkFile = new File(fileName);
+                fis  = new FileInputStream(checkFile);
+                Scanner fileScanner = new Scanner(fis);
                 outputFileName = fileName.replace(".txt", "_chk.txt");
+                System.out.printf(Util.FILE_SUCCESS_NOTIFICATION, fileName, outputFileName);
                 fos = new FileOutputStream(outputFileName);
                 PrintWriter outwriter = new PrintWriter(fos);
-                fis  = new FileInputStream(fileName);
-                Scanner fileScanner = new Scanner(fis);
                 //the next while loop is complicated: it contains the calling of WordRecommender, and writing to the output file
                 while (fileScanner.hasNext()) {
                     String fileWord = fileScanner.next();
@@ -100,19 +102,28 @@ public class SpellChecker {
                             System.out.print(">>");
 
                             while (true) {
-                                int wordIndex;
                             String userDecision = inputScanner.next();
                             if (userDecision.equals("r")) {
                                 System.out.printf(Util.AUTOMATIC_REPLACEMENT_PROMPT);
                                 System.out.print(">>");
 
-                                 wordIndex = inputScanner.nextInt() - 1;
-                              while(wordIndex>(wordSuggestions.size()-1) || !inputScanner.hasNextInt()){
-                                  System.out.printf(Util.INVALID_RESPONSE);
-                                  System.out.print(">>");
-                                  wordIndex = inputScanner.nextInt() - 1;
-                              }
-                                outwriter.print(wordSuggestions.get(wordIndex));
+                                int wordIndexChoice;
+                                while(true){
+                                    if(inputScanner.hasNextInt()) {
+                                        wordIndexChoice = inputScanner.nextInt();
+                                        while (wordIndexChoice - 1 > (wordSuggestions.size() - 1)) {
+                                            System.out.printf(Util.INVALID_RESPONSE);
+                                            System.out.print(">>");
+                                            wordIndexChoice = inputScanner.nextInt();
+                                        }
+                                        break;
+                                    }else{
+                                        System.out.printf(Util.INVALID_RESPONSE);
+                                        System.out.print(">>");
+                                        inputScanner.next();
+                                    }
+                                }
+                                outwriter.print(wordSuggestions.get(wordIndexChoice - 1));
                                 outwriter.print(" ");
                                 break;
                             } else if (userDecision.equals("a")) {
@@ -143,7 +154,6 @@ public class SpellChecker {
                     }
 
                 }
-                System.out.printf(Util.FILE_SUCCESS_NOTIFICATION, fileName, outputFileName);
                 fileScanner.close();
                 inputScanner.close();
                 outwriter.close();
