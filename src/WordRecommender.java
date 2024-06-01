@@ -87,7 +87,7 @@ public class WordRecommender {
                 dictionary.add(fileScanner.next());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
         return dictionary;
     }
